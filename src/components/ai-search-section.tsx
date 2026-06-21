@@ -4,9 +4,9 @@ import { useState } from "react";
 import { ChatInput } from "@/components/ui/chat-input";
 import { ProductCard } from "@/components/product-card";
 import { products } from "@/data/products";
-import { Sparkles } from "lucide-react";
+import { Search } from "lucide-react";
 
-const mockRecommendations = [
+const featuredRecommendations = [
   {
     product: products[3], // Miroir Art Déco
     reason: "Parce que vous aimez le style Art Déco des années 30",
@@ -35,15 +35,14 @@ export function AISearchSection() {
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         <div className="mx-auto max-w-2xl text-center mb-10">
           <div className="inline-flex items-center gap-2 rounded-full bg-purple/10 px-4 py-1.5 text-sm text-purple mb-4">
-            <Sparkles className="h-4 w-4" />
-            <span>Recherche assistée par IA</span>
+            <Search className="h-4 w-4" />
+            <span>Suggestions de la maison</span>
           </div>
           <h2 className="font-heading text-3xl sm:text-4xl text-brown mb-3">
             Décrivez ce que vous cherchez
           </h2>
           <p className="text-brown/60">
-            Notre assistant comprend vos envies et vous propose les pièces idéales.
-            Style, époque, ambiance... dites-nous tout.
+            Partagez vos envies : nous vous affichons une sélection maison pour nourrir votre recherche.
           </p>
         </div>
 
@@ -74,7 +73,7 @@ export function AISearchSection() {
               </p>
             </div>
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-              {mockRecommendations.map(({ product, reason }) => (
+              {featuredRecommendations.map(({ product, reason }) => (
                 <div key={product.id}>
                   <ProductCard product={product} />
                   <p className="mt-2 px-1 text-sm text-purple/80 italic">
