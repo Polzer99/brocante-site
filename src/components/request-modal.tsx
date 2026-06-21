@@ -16,11 +16,28 @@ function RequestForm({ onSuccess }: { onSuccess: () => void }) {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [message, setMessage] = useState("");
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    toast.success("Demande envoyée ! Nous vous recontactons très vite.");
-    onSuccess();
+    setIsSubmitting(true);
+    try {
+      const res = await fetch("/api/lead", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ name, email, message }),
+      });
+      if (!res.ok) {
+        toast.error("Impossible d'envoyer la demande. Réessayez dans un instant.");
+        return;
+      }
+      toast.success("Demande envoyée ! Nous vous recontactons très vite.");
+      onSuccess();
+    } catch {
+      toast.error("Impossible d'envoyer la demande. Réessayez dans un instant.");
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   return (
@@ -69,9 +86,10 @@ function RequestForm({ onSuccess }: { onSuccess: () => void }) {
       </div>
       <button
         type="submit"
+        disabled={isSubmitting}
         className="w-full rounded-lg bg-purple px-5 py-3 font-semibold text-white hover:bg-purple-light transition-colors"
       >
-        Envoyer ma demande
+        {isSubmitting ? "Envoi en cours..." : "Envoyer ma demande"}
       </button>
     </form>
   );
